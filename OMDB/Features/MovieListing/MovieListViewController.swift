@@ -15,14 +15,14 @@ class MovieListViewController: BaseCollectionViewController {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     private let movieListCellIdentifier = "MovieListViewCell"
     private var dataManager: MovieListDataManager!
-    private var searchText: String = ""
+    private var searchText: String = "Marvel"
         
     override func viewDidLoad() {
         super.viewDidLoad()
         print(#function)
         dataManager = MovieListDataManager(delegate: self)
         activityIndicator.startAnimating()
-        dataManager.fetchData("Marvel")
+        dataManager.fetchData(self.searchText)
     }
     
 //MARK: - Navigation
@@ -52,6 +52,7 @@ extension MovieListViewController {
         cell.accessibilityIdentifier = "\(dataManager.getMoviesSearchResults[indexPath.row].id)"
         let currentMovie = dataManager.getMoviesSearchResults[indexPath.row]
         cell.movieTitle.text = currentMovie.title
+        cell.imageView.image = nil
         if let backdropImageURL = URL(string: dataManager.getMoviesSearchResults[indexPath.row].posterPath) {
             let movieImageSize = cell.imageView.bounds.size
             let scale = collectionView.traitCollection.displayScale

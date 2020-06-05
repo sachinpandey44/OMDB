@@ -23,6 +23,7 @@ class MovieDetailsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.1))
         reloadMovieInformation()
         dataManager.fetchData()
     }
@@ -37,13 +38,13 @@ extension MovieDetailsViewController: MovieDetailsDataManagerProtocol {
     
     func reloadMovieInformation() {
         DispatchQueue.main.async {
-            //self.activityIndicator.stopAnimating()
             self.movieTitle.text = self.dataManager.currentMovie.title
             self.releaseDate.text = self.dataManager.currentMovie.releaseDate
             self.synopsis.text = self.dataManager.currentMovie.overview
             self.director.detailTextLabel?.text = self.dataManager.currentMovie.director
             self.writer.detailTextLabel?.text = self.dataManager.currentMovie.writer
             self.actor.detailTextLabel?.text = self.dataManager.currentMovie.actors
+            self.tableView.reloadData()
 
             if let backdropImageURL = URL(string: self.dataManager.currentMovie.posterPath),
                 let imagecell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) {
